@@ -4,15 +4,15 @@ import
 
 
 class PCE(     ):
-  ADDRESSKEY = []
+  ADDRESSES= []
   NeighboursRow =[]
   NumTx=[]
   NumTxACk=[]
   
   def get_ID(Addr):
     k=0
-    for i in range(len(ADDRESSKEY)-1)
-      if ADDRESSKEY[i]==Addr
+    for i in range(len(ADDRESSES)-1)
+      if ADDRESSES[i]==Addr
         return i
     raise SystemError('Unable to find Mote')
     
@@ -25,7 +25,7 @@ class PCE(     ):
     return(NeigboursRow[i])
            
   def add(Addr,Neighbours,NumTx,NumTxACK)
-    ADDRESSKEY.append(Addr)
+    ADDRESSES.append(Addr)
     NeighboursRow.append(Neighbours)
     NumTx.append(NumTx)
     NumTxACk.append(NumTxACK)
