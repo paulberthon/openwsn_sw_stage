@@ -14,7 +14,7 @@ class PCE(     ):
     for i in range(len(ADDRESSKEY)-1)
       if ADDRESSKEY[i]==Addr
         return i
-    return()
+    raise SystemError('Unable to find Mote')
     
   def get_PDR(Addr)
     i=get_ID(Addr)
