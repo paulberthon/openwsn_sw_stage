@@ -14,12 +14,29 @@ class PCE(     ):
     for i in range(len(ADDRESSKEY)-1)
       if ADDRESSKEY[i]==Addr
         return i
-    return("The given addres is not recognised"
+    return()
     
   def get_PDR(Addr)
     i=get_ID(Addr)
     return(NumTxACK[i]/NumTx[i])
     
- def get_Neighbours(Addr)
+  def get_Neighbours(Addr)
     i=get_ID(Addr)
     return(NeigboursRow[i])
+           
+  def add(Addr,Neighbours,NumTx,NumTxACK)
+    ADDRESSKEY.append(Addr)
+    NeighboursRow.append(Neighbours)
+    NumTx.append(NumTx)
+    NumTxACk.append(NumTxACK)
+    
+  
+ def update(Addr,Neighbours,NumTx,NumTxACK)
+    i=get_ID(Addr)
+    NeighboursRow[i]=Neighbours
+    NumTx[i]=NumTx
+    NumTxACK[i]=NumTxACK
+  
+  
+
+
