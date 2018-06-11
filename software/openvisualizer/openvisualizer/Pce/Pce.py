@@ -10,18 +10,18 @@ class PCE:
     self.NumTx=[]
     self.NumTxACk=[]
   
-  def get_ID(Addr):
+  def GetID(Addr):
     k=0
     for i in range(len(self.ADDRESSES)-1)
       if self.ADDRESSES[i]==Addr
         return i
     raise SystemError('Unable to find Mote')
     
-  def get_PDR(Addr)
+  def GetPDR(Addr)
     i=get_ID(Addr)
     return(self.NumTxACK[i]/self.NumTx[i])
     
-  def get_Neighbours(Addr)
+  def GetNeighbours(Addr)
     i=get_ID(Addr)
     return(self.NeigboursRow[i])
            
