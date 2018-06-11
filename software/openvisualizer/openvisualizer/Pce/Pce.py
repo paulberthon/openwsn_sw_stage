@@ -34,8 +34,8 @@ class PCE(     ):
  def update(Addr,Neighbours,NumTx,NumTxACK)
     i=get_ID(Addr)
     NeighboursRow[i]=Neighbours
-    NumTx[i]=NumTx
-    NumTxACK[i]=NumTxACK
+    NumTx[i]+=NumTx
+    NumTxACK[i]+=NumTxACK
   
   
 
