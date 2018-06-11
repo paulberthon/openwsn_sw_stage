@@ -18,6 +18,7 @@ import time
 import threading
 import json
 
+from openvisualizer.Pce           import PCE
 from openvisualizer.moteConnector import ParserStatus
 from openvisualizer.eventBus      import eventBusClient
 from openvisualizer.openType      import openType,         \
@@ -177,6 +178,7 @@ class StateScheduleRow(StateElem):
         self.data[0]['numRx']               = notif.numRx
         self.data[0]['numTx']               = notif.numTx
         self.data[0]['numTxACK']            = notif.numTxACK
+        update(get
         if 'lastUsedAsn' not in self.data[0]:
             self.data[0]['lastUsedAsn']     = typeAsn.typeAsn()
         self.data[0]['lastUsedAsn'].update(notif.lastUsedAsn_0_1,
@@ -196,7 +198,7 @@ class StateQueueRow(StateElem):
     
     def update(self,creator,owner):
         StateElem.update(self)
-        if len(self.data)==0:
+        if len(self.data)==0:_
             self.data.append({})
         
         if 'creator' not in self.data[0]:
@@ -251,6 +253,7 @@ class StateNeighborsRow(StateElem):
         self.data[0]['numTx']                    = notif.numTx
         self.data[0]['numTxACK']                 = notif.numTxACK
         self.data[0]['numWraps']                 = notif.numWraps
+        
         if 'asn' not in self.data[0]:
             self.data[0]['asn']                  = typeAsn.typeAsn()
         self.data[0]['asn'].update(notif.asn_0_1,
