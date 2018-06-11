@@ -4,10 +4,11 @@ import
 
 
 class PCE(     ):
-  ADDRESSES= []
-  NeighboursRow =[]
-  NumTx=[]
-  NumTxACk=[]
+  def __init__(self):
+    self.ADDRESSES= []
+    self.NeighboursRow =[]
+    self.NumTx=[]
+    self.NumTxACk=[]
   
   def get_ID(Addr):
     k=0
