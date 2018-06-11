@@ -1,4 +1,4 @@
-import 
+from openvisualizer.moteState import moteState
 
 
 
@@ -24,8 +24,8 @@ class PCE:
     i=get_ID(Addr)
     return(self.NeigboursRow[i])
            
-  def add(self,Addr,Neighbours,NumTx,NumTxACK)
-    self.self.ADDRESSES.append(Addr)
+  def add(self,moteState.moteState)
+    self.ADDRESSES.append(Addr)
     self.NeighboursRow.append(Neighbours)
     self.NumTx.append(NumTx)
     self.NumTxACk.append(NumTxACK)
