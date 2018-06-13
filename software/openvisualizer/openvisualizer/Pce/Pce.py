@@ -20,15 +20,12 @@ class PCE:
       if (self.ADDRESSES[i]==Addr):
         return i
     raise SystemError('Unable to find Mote')
-    
-  def GetPDR(self,moteState.ms)
-    i=self.getID(ms)
-    return(self.NumTxACK[i]/self.NumTx[i])
-    
-  def GetNeighbours(self,moteState.ms)
-    i=self.getID(ms)
-    return(self.NeigboursRow[i])
-           
+  
+  def GetMoteElem(self,moteState.ms,elemName)
+      i=self.getID(ms)
+      return(self.elemName[i]
+             
+             
   def add(self,moteState.ms)
     self.ADDRESSES.append(ms.getStateElem(ms.ST_IDMANAGER))
     linkInfo=self.dataParsingNeigbours(moteState.ms)
