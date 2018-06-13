@@ -392,7 +392,7 @@ class moteState(eventBusClient.eventBusClient):
     TRIGGER_ALL         = [
         TRIGGER_DAGROOT,
     ]
-    
+    Pc=Pce()
     def __init__(self,moteConnector):
         
         # log
@@ -400,7 +400,6 @@ class moteState(eventBusClient.eventBusClient):
         
         # store params
         self.moteConnector   = moteConnector
-        
       
         # local variables
         self.parserStatus                   = ParserStatus.ParserStatus()
@@ -479,6 +478,7 @@ class moteState(eventBusClient.eventBusClient):
             self.parserStatus.named_tuple[self.ST_KAPERIOD]:
                 self.state[self.ST_KAPERIOD].update,
         }
+           Pc.add(self)
         
         # initialize parent class
         eventBusClient.eventBusClient.__init__(
