@@ -26,7 +26,7 @@ class PCE:
   @staticmethod
   def GetMoteElem(self,moteState.ms,elemName)
       i=self.getID(ms)
-      return(self.elemName[i]
+      return(self.elemName[i])
              
    @staticmethod            
    def add(self,moteState.ms)
