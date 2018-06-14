@@ -1,4 +1,4 @@
-# Copyright (c) 2010-2013, Regents of the University of California. 
+d# Copyright (c) 2010-2013, Regents of the University of California. 
 # All rights reserved. 
 #  
 # Released under the BSD 3-Clause license as published at the link below.
@@ -326,7 +326,7 @@ class StateIdManager(StateElem):
         
         # record isDAGroot
         self.isDAGroot = self.data[0]['isDAGroot']
-
+        PCE.update(self)
 class StateMyDagRank(StateElem):
     
     def update(self,notif):
@@ -392,7 +392,7 @@ class moteState(eventBusClient.eventBusClient):
     TRIGGER_ALL         = [
         TRIGGER_DAGROOT,
     ]
-    Pc=Pce()
+               
     def __init__(self,moteConnector):
         
         # log
@@ -478,7 +478,7 @@ class moteState(eventBusClient.eventBusClient):
             self.parserStatus.named_tuple[self.ST_KAPERIOD]:
                 self.state[self.ST_KAPERIOD].update,
         }
-           Pc.add(self)
+           PCE.add(self)
         
         # initialize parent class
         eventBusClient.eventBusClient.__init__(
