@@ -14,6 +14,8 @@ class PCE:
    NumTxACk=[]
    PDR=[]
    lastUpdated=[]
+   
+   
   @staticmethod
   def getID(self,Addr):
     for i in range(len(self.ADDRESSES)):
@@ -50,6 +52,8 @@ class PCE:
 def dataParsingNeigbours(self,moteState.ms)
    obj = json.loads(ms.getStateElem(ms.ST_NEIGHBOURS))
    tab= []
-   for i in range(len(obj['data'])):
+   k=0
+   while obj['data'][k]['Neighbors'] != ' (None)':
       tab.append([obj['data'][i],obj['data'][i]['numTx'],obj['data'][i]['numTxACK']])
+      k+=1
    return tab
