@@ -24,12 +24,12 @@ class PCE:
     raise SystemError('Unable to find Mote')
   
   @staticmethod
-  def GetMoteElem(self,moteState.ms,elemName)
+  def GetMoteElem(self,moteState.ms,elemName):
       i=self.getID(ms)
       return(self.elemName[i])
              
    @staticmethod            
-   def add(self,moteState.ms)
+   def add(self,moteState.ms):
       self.ADDRESSES.append(ms.getStateElem(ms.ST_IDMANAGER))
       Motes.append(ms)
       linkInfo=self.dataParsingNeigbours(moteState.ms)
@@ -40,16 +40,19 @@ class PCE:
       self.lastUpdated.append(time.clock())
   
    @staticmethod
-   def update(self,Addr)
+   def update(self,Addr):
       i=self.getID(Addr)
       linkInfo=self.dataParsingNeigbours(Motes[i])
-      self.NeighboursRow[i]=[linkInfo[i][0] for i in range(len(linkInfo))]
-      self.NumTx[i]=[linkInfo[i][1] for i in range(len(linkInfo))]
-      self.NumTxACK[i]=[linkInfo[i][2] for i in range(len(linkInfo))]
-      self.PDR=[linkInfo[i][1]/linkInfo[i][2] for i in range(len(linkInfo))]
+      if len(linkInfo[i]==0):
+         self.delete(Motes[i])
+      else:
+         self.NeighboursRow[i]=[linkInfo[j][0] for j in range(len(linkInfo))]
+         self.NumTx[i]=[linkInfo[j][1] for j in range(len(linkInfo))]
+         self.NumTxACK[i]=[linkInfo[j][2] for j in range(len(linkInfo))]
+         self.PDR[i]=[linkInfo[j][1]/linkInfo[j][2] for j in range(len(linkInfo))]
   
    @staticmethod  
-   def dataParsingNeigbours(self,moteState.ms)
+   def dataParsingNeigbours(self,moteState.ms):
       obj = json.loads(ms.getStateElem(ms.ST_NEIGHBOURS))
       tab= []
       k=0
@@ -57,3 +60,27 @@ class PCE:
          tab.append([obj['data'][i],obj['data'][i]['numTx'],obj['data'][i]['numTxACK']])
          k+=1
       return tab
+   
+   
+   @staticmethod
+   def delete(self,index):
+      del self.NeighboursRow[index]
+      del self.NumTx[index]
+      del self.NumTxACK[index]
+      del self.PDR[index]
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
