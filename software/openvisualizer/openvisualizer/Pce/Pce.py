@@ -68,7 +68,7 @@ class PCE:
       del self.NumTx[index]
       del self.NumTxACK[index]
       del self.Pdr[index]
-      del self.Addresses[i]
+      del self.Addresses[index]
       
       
       
