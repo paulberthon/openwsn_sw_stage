@@ -478,7 +478,7 @@ class moteState(eventBusClient.eventBusClient):
             self.parserStatus.named_tuple[self.ST_KAPERIOD]:
                 self.state[self.ST_KAPERIOD].update,
         }
-           PCE.add(self)
+        PCE.add(self)
         
         # initialize parent class
         eventBusClient.eventBusClient.__init__(
