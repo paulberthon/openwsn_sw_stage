@@ -14,7 +14,7 @@ class PCE:
    NumTxACk=[]
    Pdr=[]
    lastUpdated=[]
-   
+   Schedule=[]
    
   @staticmethod
   def getID(self,Addr):
@@ -37,7 +37,7 @@ class PCE:
       self.NumTx.append([linkInfo[i][1] for i in range(len(linkInfo))])
       self.NumTxACk.append([linkInfo[i][2] for i in range(len(linkInfo))])
       self.Pdr.append([linkInfo[i][1]/linkInfo[i][2] for i in range(len(linkInfo))])
-      self.lastUpdated.append(time.clock())
+      self.Schedule.append([linkInfo[i][3] for i in range(len(linkInfo))])
   
    @staticmethod
    def update(self,Addr):
@@ -50,14 +50,15 @@ class PCE:
          self.NumTx[i]=[linkInfo[j][1] for j in range(len(linkInfo))]
          self.NumTxACK[i]=[linkInfo[j][2] for j in range(len(linkInfo))]
          self.Pdr[i]=[linkInfo[j][1]/linkInfo[j][2] for j in range(len(linkInfo))]
-  
+         self.Schedule[i]=[linkInfo[j][3] for j in range(len(linkInfo))]
    @staticmethod  
    def dataParsingNeigbours(self,moteState.ms):
       obj = json.loads(ms.getStateElem(ms.ST_NEIGHBOURS))
+      obj2 = json.loads(ms.getStateElem(ms.ST_SCHEDULE))
       tab= []
       k=0
       while obj['data'][k]['Neighbors'] != ' (None)':
-         tab.append([obj['data'][i],obj['data'][i]['numTx'],obj['data'][i]['numTxACK']])
+         tab.append([obj['data'][i],obj['data'][i]['numTx'],obj['data'][i]['numTxACK'],obj2['data'][i]])
          k+=1
       return tab
    
@@ -69,7 +70,8 @@ class PCE:
       del self.NumTxACK[index]
       del self.Pdr[index]
       del self.Addresses[index]
-      
+      del self.Schedule[index]
+      del self.Motes[index]
       
       
       
