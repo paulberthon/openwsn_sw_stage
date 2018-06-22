@@ -1,100 +1,110 @@
 
 import json
 import time
-from openvisualizer.moteState import moteState
 
+from openvisualizer.moteState     import *
 
-
-
-class PCE:
-   Addresses= []
-   Motes=[]
-   NeighboursRow =[]
-   NumTx=[]
-   NumTxACk=[]
-   Pdr=[]
+class Pce:
+   Addresses= []       #Contains the addresses (16/32/64 bits) of all known motes and is used as a key to find their datas in other tables
+   motes=[]            #Contains all known moteState objects
+   NeighboursRow =[]   #Contains the Neighbors of each motes
+   NumTx=[]            #Contains the number of sent messages to each Neighbors from each motes
+   NumTxACk=[]         #Contains the number of recieved acks from each Neighbors to each motes
+   Pdr=[]              #Contains the the Package Delivery Rate of each link
    lastUpdated=[]
-   Schedule=[]
-   
-  @staticmethod
-  def getID(self,Addr):
-    for i in range(len(self.Addresses)):
-      if (self.Addresses[i]==Addr):
-        return i
-    raise SystemError('Unable to find Mote')
-  
-  @staticmethod
-  def GetMoteElem(self,moteState.ms,elemName):
-      i=self.getID(ms)
-      return(self.elemName[i])
-             
-   @staticmethod            
-   def add(self,moteState.ms):
-      self.Addresses.append(ms.getStateElem(ms.ST_IDMANAGER))
-      Motes.append(ms)
-      linkInfo=self.dataParsingNeigbours(moteState.ms)
-      scheduleInfo=self.dataParsingSchedule(Motes[i])
-      self.NeighboursRow.append([linkInfo[i][0] for i in range(len(linkInfo))])
-      self.NumTx.append([linkInfo[i][1] for i in range(len(linkInfo))])
-      self.NumTxACk.append([linkInfo[i][2] for i in range(len(linkInfo))])
-      self.Pdr.append([linkInfo[i][1]/linkInfo[i][2] for i in range(len(linkInfo))])
-      self.Schedule.append([scheduleInfo[j] for j in range(len(scheduleInfo))])
-  
+   Schedule=[]          #Contains the Scheduling tables of each motes
+
    @staticmethod
-   def update(self,Addr):
-      i=self.getID(Addr)
-      linkInfo=self.dataParsingNeigbours(Motes[i])
-      scheduleInfo=self.dataParsingSchedule(Motes[i])
-      if len(linkInfo[i]==0):
-         self.delete(Motes[i])
-      else:
-         self.NeighboursRow[i]=[linkInfo[j][0] for j in range(len(linkInfo))]
-         self.NumTx[i]=[linkInfo[j][1] for j in range(len(linkInfo))]
-         self.NumTxACK[i]=[linkInfo[j][2] for j in range(len(linkInfo))]
-         self.Pdr[i]=[linkInfo[j][1]/linkInfo[j][2] for j in range(len(linkInfo))]
-         self.Schedule[i]=[scheduleInfo[j] for j in range(len(scheduleInfo))]
-         
-         
-   @staticmethod  
-   def dataParsingNeigbours(self,moteState.ms):
-      obj = json.loads(ms.getStateElem(ms.ST_NEIGHBOURS))
-      obj2 = json.loads(ms.getStateElem(ms.ST_SCHEDULE))
-      tab= []
-      for k in range(len(obj['data'])):
-         if obj['data'][k]['Neighbors'] != ' (None)':
-         tab.append([obj['data'][k],obj['data'][k]['numTx'],obj['data'][k]['numTxACK'],obj2['data'][k]])
-      return tab
-   
-   @staticmethod  
-   def dataParsingSchedule(self,moteState.ms):
-      obj = json.loads(ms.getStateElem(ms.ST_SCHEDULE))
-      tab= []
-      for k in range(len(obj['data'])):
-         if obj['data'][k]['neighbor'] != ' (None)':
-         tab.append(obj['data'][k])
-      return tab
-   
-   
+   def dataParsingNeigbours(moteStateObject):
+       '''Uses Json to parse the data obtained via the getStateElem function from the moteState class
+       applied on the ST_NEIGHBOURS parameter'''
+       obj = json.loads(moteStateObject.getStateElem(moteStateObject.ST_NEIGHBOURS))
+       tab= []
+       for k in range(len(obj['data'])):
+           if obj['data'][k]['Neighbors'] != ' (None)':
+               tab.append([obj['data'][k],obj['data'][k]['numTx'],obj['data'][k]['numTxACK']])
+       return tab
+
    @staticmethod
-   def delete(self,index):
-      del self.NeighboursRow[index]
-      del self.NumTx[index]
-      del self.NumTxACK[index]
-      del self.Pdr[index]
-      del self.Addresses[index]
-      del self.Schedule[index]
-      del self.Motes[index]
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+   def dataParsingSchedule(moteStateObject):
+       '''Uses Json to parse the data obtained via the getStateElem function from the moteState class
+       applied on the ST_SCHEDULE parameter'''
+       obj = json.loads(moteStateObject.getStateElem(moteStateObject.ST_SCHEDULE))
+       tab= []
+       for k in range(len(obj['data'])):
+           if obj['data'][k]['neighbor'] != ' (None)':
+               tab.append(obj['data'][k])
+       return tab
+
+
+   @classmethod
+   def delete(cls,index):
+       '''Delete all datas corresponding to the mote's index passed as an argument'''
+       del cls.NeighboursRow[index]
+       del cls.NumTx[index]
+       del cls.NumTxACK[index]
+       del cls.Pdr[index]
+       del cls.Addresses[index]
+       del cls.Schedule[index]
+       del cls.motes[index]
+
+   @classmethod
+   def getID(cls,Addr):
+       ''''Is used to retrive the index corresponding to a mote's address
+       so that it can be used as a primary key in other tables later on'''
+       for i in range(len(cls.Addresses)):
+           if (cls.Addresses[i]==Addr):
+               return i
+       return "Mote not found"
+
+   @staticmethod
+   def GetmoteElem(moteStateObject,elemName):
+       '''Retrieves the value of the element elemName'''
+       i=getID(moteStateObject)
+       return(elemName[i])
+
+   @classmethod
+   def add(cls,moteStateObject):
+       '''This function is used when a new mote connects on to the network
+       It creates new fields in every tables to be completed with the new mote's datas'''
+       cls.Addresses.append(moteStateObject.getStateElem(moteStateObject.ST_IDMANAGER))
+       cls.motes.append(moteStateObject)
+       linkInfo=dataParsingNeigbours(moteStateObject)
+       scheduleInfo=dataParsingSchedule(moteStateObject)
+       cls.NeighboursRow.append([linkInfo[i][0] for i in range(len(linkInfo))])
+       cls.NumTx.append([linkInfo[i][1] for i in range(len(linkInfo))])
+       cls.NumTxACk.append([linkInfo[i][2] for i in range(len(linkInfo))])
+       cls.Pdr.append([linkInfo[i][1]/linkInfo[i][2] for i in range(len(linkInfo))])
+       cls.Schedule.append([scheduleInfo[j] for j in range(len(scheduleInfo))])
+
+   @classmethod
+   def update(cls,moteStateObject):
+       '''This function is used when a mote's datas are updated the updating the values
+       contained in each table
+       -It only writes the used fields
+       -When no Neighbour is detected it means that the mote is disconected and as to be deleted from
+       the Network'''
+       i=cls.getID(Addr)
+       if i== "Mote not found":
+           cls.add(moteStateObject)
+       else:
+           linkInfo=dataParsingNeigbours(motes[i])
+           scheduleInfo=dataParsingSchedule(motes[i])
+           if len(linkInfo[i]==0):
+               cls.delete(motes[i])
+           else:
+               cls.NeighboursRow[i]=[linkInfo[j][0] for j in range(len(linkInfo))]
+               cls.NumTx[i]=[linkInfo[j][1] for j in range(len(linkInfo))]
+               cls.NumTxACK[i]=[linkInfo[j][2] for j in range(len(linkInfo))]
+               cls.Pdr[i]=[linkInfo[j][1]/linkInfo[j][2] for j in range(len(linkInfo))]
+               cls.Schedule[i]=[scheduleInfo[j] for j in range(len(scheduleInfo))]
+
+
+
+
+   def __init__(self):
+       self.moteState=[]
+
+
+pce=Pce()
+print(pce.__dict__)
