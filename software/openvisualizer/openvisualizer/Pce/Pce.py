@@ -13,6 +13,7 @@ class Pce:
    Pdr=[]              #Contains the the Package Delivery Rate of each link
    lastUpdated=[]
    Schedule=[]          #Contains the Scheduling tables of each motes
+   memorySize=30
 
    @staticmethod
    def dataParsingNeigbours(moteStateObject):
@@ -36,6 +37,17 @@ class Pce:
                tab.append(obj['data'][k])
        return tab
 
+
+   @classmethod
+   def makeRoom(cls,index):
+       '''Delete outdated datas from memories'''
+       del cls.NeighboursRow[index][0]
+       del cls.NumTx[index][0]
+       del cls.NumTxACK[index][0]
+       del cls.Pdr[index][0]
+       del cls.Addresses[index][0]
+       del cls.Schedule[index][0]
+       del cls.motes[index][0]
 
    @classmethod
    def delete(cls,index):
@@ -93,18 +105,11 @@ class Pce:
            if len(linkInfo[i]==0):
                cls.delete(motes[i])
            else:
-               cls.NeighboursRow[i]=[linkInfo[j][0] for j in range(len(linkInfo))]
-               cls.NumTx[i]=[linkInfo[j][1] for j in range(len(linkInfo))]
-               cls.NumTxACK[i]=[linkInfo[j][2] for j in range(len(linkInfo))]
-               cls.Pdr[i]=[linkInfo[j][1]/linkInfo[j][2] for j in range(len(linkInfo))]
-               cls.Schedule[i]=[scheduleInfo[j] for j in range(len(scheduleInfo))]
-
-
-
-
-   def __init__(self):
-       self.moteState=[]
-
-
-pce=Pce()
-print(pce.__dict__)
+               if len(cls.Neighbours[i])>=memorySize:
+                   makeRoom(cls,i)
+               cls.NeighboursRow[i].append([linkInfo[j][0] for j in range(len(linkInfo))])
+               cls.NumTx[i].append([linkInfo[j][1] for j in range(len(linkInfo))])
+               cls.NumTxACK[i].append([linkInfo[j][2] for j in range(len(linkInfo))])
+               cls.Pdr[i].append([linkInfo[j][1]/linkInfo[j][2] for j in range(len(linkInfo))])
+               cls.Schedule[i].append([scheduleInfo[j] for j in range(len(scheduleInfo))])
+       print(cls.Schedule[i])
